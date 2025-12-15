@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<style>
+.gesture{
+    margin-top:auto;
+      width:140px;
+      height:6px;
+      background:#111;
+      border-radius:4px;
+      align-self:center;
+      margin-bottom:10px;
+    }
+    
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;background:#f1f3f6;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+
+    /* Center the mobile device mockup on larger screens */
+    .stage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+
+    /* The device frame - fixed mobile size (keeps "mobile only" look) */
+    .device{
+      width:390px;               /* phone width (iPhone-ish) */
+      height:844px;              /* phone height */
+      background:white;
+      border-radius:34px;
+      box-shadow:0 24px 60px rgba(15,23,42,0.18);
+      overflow:hidden;
+      position:relative;
+      display:flex;flex-direction:column;
+      border: none; /* device bezel color */
+    }
+
+    /* Top status bar */
+    .status{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:13px;color:#394150;background:linear-gradient(180deg, rgba(250,250,250,0.6), rgba(245,245,247,0.6));}
+
+    /* App header */
+    header.appbar{height:56px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid #f0f0f2}
+    header.appbar .title{font-weight:600;font-size:16px}
+
+    /* Main scrollable content area */
+    .content{flex:1;overflow-y:auto;padding:18px}
+    .hero{background:#0EA5A4;color:white;padding:18px;border-radius:12px;margin-bottom:16px}
+    .card{background:white;border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 6px 18px rgba(11,20,30,0.04);}
+
+    /* Bottom navigation (tab bar) */
+    .tabbar{height:70px;border-top:1px solid #f0f0f2;display:flex;gap:8px;padding:10px 12px;align-items:center;justify-content:space-between}
+    .tab{flex:1;text-align:center;font-size:12px;color:#475569}
+    .tab svg{display:block;margin:0 auto;margin-bottom:6px}
+    .tab.active{color:#0ea5a4;font-weight:600}
+
+    /* Floating action button */
+    .fab{position:absolute;left:50%;transform:translateX(-50%);bottom:56px;background:#0ea5a4;color:white;border-radius:50%;width:64px;height:64px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(14,165,164,0.2);border:6px solid white}
+
+    /* If user opens on very narrow screens (actual phones), make device fluid but keep proportions */
+    @media (max-width:420px){
+      .device{width:100%;height:calc(100vh - 48px);border-radius:20px}
+    }
+
+    /* Accessibility: hide focus outlines except for keyboard users */
+    :focus{outline:3px solid rgba(14,165,164,0.18);outline-offset:2px}
+
+    /* Small helpers */
+    .muted{color:#64748b;font-size:13px}
+    .row{display:flex;gap:12px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:#eef2f7;color:#0b1220;font-weight:600}
+
+    /* Optional: on very large displays show a caption next to device */
+    .side-note{display:none;margin-left:20px;max-width:320px;color:#334155}
+    @media(min-width:1100px){.side-note{display:block}}
+
+    .Wifi{
+    margin-right: 2px;
+    }
+    .about{
+      text-decoration-line: none;
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    margin-right: 20px;
+    margin-top: 15px;
+    border-radius: 20px;
+background: linear-gradient(#fff0, #fff0) padding-box,
+            linear-gradient(to right, #f39c12, #8e44ad) border-box;
+border: 8px solid transparent;
+margin-left: 8px;
+
+    
+    }
+    .dashboard{
+    text-align: center;
+    margin-bottom: 10px;
+    }
+    a{
+    text-decoration-line: none;
+    }
+    .border-right{
+    border-right: 2px solid rgb(149, 144, 144);
+    width: 3px;
+    height: 25px;
+    
+    }
+    .border-ri{
+    border-right: 2px solid rgb(149, 144, 144);
+    width: 3px;
+    height: 25px;
+    
+    }
+    .border-r{
+    border-right: 2px solid rgb(149, 144, 144);
+    width: 3px;
+    height: 25px;
+    
+    }
+    .dashboard th{
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #fff;
+    }
+    .dashboard td{
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #fff;
+    }
+
+    .Btn{
+    border: none;
+    border-radius: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    color: #fff;
+    
+    }
+    .btn{
+    border: 2px solid #fff;
+    border-radius: 100px;
+    padding-right: 20px;
+    padding-left: 20px;
+    background-color: #111;
+    color: #fff;
+  
+    
+    }
+    .BtN{
+    border: 2px solid #fff;
+    border-radius: 20px;
+    padding-right: 8px;
+    padding-left: 8px;
+    color: #fff;
+    background-color: #111;
+    }
+    table{
+    border: none;
+    border-radius: 2px;
+    background-color: #111;
+    
+    
+    }
+    .currencies{
+    
+    
+    align-items: center; /* Vertically aligns them in the middle */
+    margin-top: 100px; /* Space between the table and this section */
+    padding: 0 10px; /* Optional: adds a little horizontal padding */
+    margin-right:20px ;
+}
+
+
+    .currency-item {
+    display: flex; /* Use flexbox to align icon, details, and price horizontally */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f0f2; /* Light separator line */
+}
+
+.icon-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0; /* Prevents the icon from shrinking */
+}
+
+.icon-img {
+    width: 20px;
+    height: 20px;
+    /* In a real app, this would be an SVG for better quality */
+}
+
+/* Background colors for icons (adjust as needed) */
+.bg-yellow { background-color: #FFC107; }
+.bg-gray { background-color: #e9ecef; }
+.bg-green { background-color: #28a745; }
+
+
+.details {
+    flex-grow: 1; /* Allows the detail section to take up available space */
+    display: flex;
+    flex-direction: column;
+}
+
+.name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ticker {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.price-change {
+    font-weight: 600;
+    font-size: 13px;
+    text-align: right;
+    width: 60px; /* Gives a fixed width for alignment */
+}
+
+/* Colors for price changes */
+.text-success { color: #28a745 !important; }
+.text-danger { color: #dc3545 !important; }
+    
+   .img{
+  margin-top: 130px;
+  margin-left: 30px;
+  margin-right: 20px;
+   }
+   .balance-section {
+    padding: 0 16px;
+    background-color: white; /* Ensure background is white if content scrolls */
+}
+
+.total-balance-card {
+    /* Set the background to the prominent color (green in the PocketPal image) */
+    background-color: #1DCC70; 
+    color: white;
+    padding: 20px;
+    border-radius: 18px; /* Rounded corners for the card */
+    margin-top: 10px; /* Space below the app bar */
+}
+
+.balance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.balance-toggle {
+    /* Style the "Wallet" button/toggle */
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-weight: 500;
+}
+
+.balance-amount {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* -------------------------------------- */
+/* Action Icons Row Styling               */
+/* -------------------------------------- */
+
+.action-icons-row {
+    display: flex;
+    justify-content: space-around; /* Distribute items evenly */
+    align-items: flex-start;
+    padding: 20px 0; /* Vertical padding */
+}
+
+.action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333; /* Dark text color for labels */
+    font-size: 12px;
+}
+
+.action-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    
+    /* Icon background styling */
+    background-color: #eef1f6; 
+    color: #4CAF50; /* Icon color matching the card accent */
+}
+
+/* Color for the icon background */
+.bg-gray-dark {
+    background-color: #eef1f6;
+}
+
+.status-icons {
+    display: flex; /* Makes the icons align horizontally */
+    align-items: center;
+    gap: 4px; /* Controls the space BETWEEN the icons (try 4px or 6px for very close) */
+}
+    
+   
+    
+    </style>
+<body>
+    <div class="stage">
+    <div class="device" role="application" aria-label="Mobile app mockup">
+      <div class="status" aria-hidden>
+        <div>9:41</div>
+        <div class="status-icons">
+        <div><svg xmlns="http://www.w3.org/2000/svg" class=""     width="15" height="15" viewBox="0 0 512 512"><path fill="currentColor" d="M428.4 27.8v456.4h60.9V27.8zM327 168.2v316h60.8v-316zM225.4 273.6v210.6h61V273.6zM124 343.8v140.4h60.9V343.8zM22.67 394.9v89.3h60.84v-89.3z"/></svg></div>
+        <div><svg xmlns="http://www.w3.org/2000/svg"  class="" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21q-1.05 0-1.775-.725T9.5 18.5t.725-1.775T12 16t1.775.725t.725 1.775t-.725 1.775T12 21m-5.65-5.65l-2.1-2.15q1.475-1.475 3.463-2.337T12 10t4.288.875t3.462 2.375l-2.1 2.1q-1.1-1.1-2.55-1.725T12 13t-3.1.625t-2.55 1.725M2.1 11.1L0 9q2.3-2.35 5.375-3.675T12 4t6.625 1.325T24 9l-2.1 2.1q-1.925-1.925-4.462-3.012T12 7T6.563 8.088T2.1 11.1"/></svg></div>
+        <div><svg xmlns="http://www.w3.org/2000/svg" width="21.6" height="12" viewBox="0 0 2304 1280"><path fill="#000" d="M1920 256v768H256V256zm128 576h128V448h-128V160q0-14-9-23t-23-9H160q-14 0-23 9t-9 23v960q0 14 9 23t23 9h1856q14 0 23-9t9-23zm256-384v384q0 53-37.5 90.5T2176 960v160q0 66-47 113t-113 47H160q-66 0-113-47T0 1120V160Q0 94 47 47T160 0h1856q66 0 113 47t47 113v160q53 0 90.5 37.5T2304 448" stroke-width="32" stroke="#000"/></svg></div>
+        </div>
+        </div>
+
+       <nav class="navbar navbar-expand-lg border-bottom border-body" data-bs-theme="dark">
+<div class="container-fluid">
+  <img class="logs" src="DSC_33470111.jpg" alt="" width="40" height="40" style="border-radius: 50%; border: 2px solid #FF5A5F;">
+  
+        
+
+  <h4>Welcome,<br>Haruna Caleb</h4>
+  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M5 9a7 7 0 0 1 14 0v3.764l1.822 3.644A1.1 1.1 0 0 1 19.838 18h-3.964a4.002 4.002 0 0 1-7.748 0H4.162a1.1 1.1 0 0 1-.984-1.592L5 12.764zm5.268 9a2 2 0 0 0 3.464 0zM12 4a5 5 0 0 0-5 5v3.764a2 2 0 0 1-.211.894L5.619 16h12.763l-1.17-2.342a2 2 0 0 1-.212-.894V9a5 5 0 0 0-5-5"/></g></svg>
+  
+        
+  
+  
+  
+  
+  </div>
+</nav>
+<div class="below">
+  <div class="balance-section">
+    <div class="total-balance-card">
+        <div class="balance-header">
+            <span class="muted">Total balance</span>
+            <span class="balance-toggle">O-Wallet</span>
+        </div>
+        <div class="balance-amount">$2,430.00</div>
+    </div>
+
+    <div class="action-icons-row">
+        <a href="#" class="action-item">
+            <div class="action-icon bg-gray-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M2.01 21L23 12L2.01 3L2 10l15 2l-15 2z"/></svg>
+            </div>
+            <span class="action-label">Send to</span>
+        </a>
+        
+        <a href="#" class="action-item">
+            <div class="action-icon bg-gray-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6s6 2.69 6 6s-2.69 6-6 6m0-11.5c-2.4 0-4.5 1.5-4.5 4v1.5H12v-1.5c.6-.4 1-.7 1-.7v-1.5c0-.6.5-1 1-1h1c.5 0 1 .5 1 1v1h-1v1.5h2.5V12c0 3.31-2.69 6-6 6s-6-2.69-6-6s2.69-6 6-6z"/></svg>
+            </div>
+            <span class="action-label">Request</span>
+        </a>
+        
+        <a href="#" class="action-item">
+            <div class="action-icon bg-gray-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M17 11h-4V7h-2v4H7v2h4v4h2v-4h4zM12 2c5.51 0 10 4.49 10 10s-4.49 10-10 10S2 17.51 2 12S6.49 2 12 2m0 18c4.41 0 8-3.59 8-8s-3.59-8-8-8s-8 3.59-8 8s3.59 8 8 8"/></svg>
+            </div>
+            <span class="action-label">Top up</span>
+        </a>
+        
+        <a href="#" class="action-item">
+            <div class="action-icon bg-gray-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2s2-.9 2-2s-.9-2-2-2m12 0c-1.1 0-2 .9-2 2s.9 2 2 2s2-.9 2-2s-.9-2-2-2m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2s2-.9 2-2s-.9-2-2-2"/></svg>
+            </div>
+            <span class="action-label">More</span>
+        </a>
+    </div>
+</div>
+
+    <div class="currencies">
+      <h5><span class="c">Transaction history</span><button style="float: right; border: none; border-radius: 100px; padding-left: 20px; padding-right:20px ;">View all</button></h5>
+    </div>
+    <div class="currency-list">
+
+    <div class="currency-item">
+        <div class="icon-circle bg-gray"><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M14.33 23.196c-1.61 0-2.416-9.655 0-12.873c4.835-6.436 14.505-6.436 19.34 0c2.417 3.218 1.61 12.872 0 12.872m4.834 19.309V40.01c0-4.023-3.384-7.24-7.413-7.24q-7.253 6.033-14.504 0c-4.029 0-7.09 3.217-7.09 7.24v2.494" stroke-width="1"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M28.835 20.782c0 .885-.726 1.609-1.612 1.609s-1.611-.724-1.611-1.61s.725-1.608 1.611-1.608s1.612.724 1.612 1.609m-6.446 0c0 .885-.726 1.609-1.612 1.609s-1.611-.724-1.611-1.61s.725-1.608 1.611-1.608s1.612.724 1.612 1.609" stroke-width="1"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M15.137 21.586c0 6.437 3.867 9.574 8.702 9.574s9.025-3.137 9.025-9.574s-2.418-8.045-2.418-8.045c-6.446 3.218-11.28 1.61-12.892 0c0 0-2.417 1.61-2.417 8.045" stroke-width="1"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M21.422 25.77a5.14 5.14 0 0 0 4.834 0M9.496 42.504h29.008" stroke-width="1"/></svg></div>
+        <div class="details">
+            <div class="name">Send to Geezy</div>
+            <div class="ticker">14:30pm</div>
+        </div>
+        <div class="price-change text-success">
+            $56566
+        </div>
+    </div>
+
+    <div class="currency-item">
+        <div class="icon-circle bg-gray"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M14.33 23.196c-1.61 0-2.416-9.655 0-12.873c4.835-6.436 14.505-6.436 19.34 0c2.417 3.218 1.61 12.872 0 12.872m4.834 19.309V40.01c0-4.023-3.384-7.24-7.413-7.24q-7.253 6.033-14.504 0c-4.029 0-7.09 3.217-7.09 7.24v2.494" stroke-width="1"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M28.835 20.782c0 .885-.726 1.609-1.612 1.609s-1.611-.724-1.611-1.61s.725-1.608 1.611-1.608s1.612.724 1.612 1.609m-6.446 0c0 .885-.726 1.609-1.612 1.609s-1.611-.724-1.611-1.61s.725-1.608 1.611-1.608s1.612.724 1.612 1.609" stroke-width="1"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M15.137 21.586c0 6.437 3.867 9.574 8.702 9.574s9.025-3.137 9.025-9.574s-2.418-8.045-2.418-8.045c-6.446 3.218-11.28 1.61-12.892 0c0 0-2.417 1.61-2.417 8.045" stroke-width="1"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M21.422 25.77a5.14 5.14 0 0 0 4.834 0M9.496 42.504h29.008" stroke-width="1"/></svg></div>
+        <div class="details">
+            <div class="name">Send to Mercy</div>
+            <div class="ticker">12:55pm</div>
+        </div>
+        <div class="price-change text-danger">
+            $23067
+        </div>
+
+        
+    </div>
+
+    </div>
+    
+
+    <div class="bottom-icons">
+    <a href="#" class="icon-link">
+        
+    </a>
+    <a href="Osoftcrypt.html" class="icon-link">
+       <svg xmlns="http://www.w3.org/2000/svg" class="img"     width="20px" height="20px" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="#000" d="M13.228 2.688a2 2 0 0 0-2.456 0l-8.384 6.52C1.636 9.795 2.05 11 3.003 11h1.092l.82 8.199A2 2 0 0 0 6.905 21h10.19a2 2 0 0 0 1.99-1.801l.82-8.199h1.092c.952 0 1.368-1.205.615-1.791l-8.384-6.52ZM12 16a3 3 0 1 0 0-6a3 3 0 0 0 0 6"/></g></svg>
+       
+    </a>
+    
+    <a href="#" class="icon-link active">
+        <svg xmlns="http://www.w3.org/2000/svg" class="img"      width="20px" height="20px" viewBox="0 0 26 26"><path fill="#000" d="M16.688 0c-.2.008-.393.044-.594.094L2.5 3.406C.892 3.8-.114 5.422.281 7.031l1.906 7.782A2.99 2.99 0 0 0 4 16.875V15c0-2.757 2.243-5 5-5h12.594l-1.875-7.719A3.004 3.004 0 0 0 16.687 0zm1.218 4.313l.813 3.406l-3.375.812l-.844-3.375zM9 12c-1.656 0-3 1.344-3 3v8c0 1.656 1.344 3 3 3h14c1.656 0 3-1.344 3-3v-8c0-1.656-1.344-3-3-3zm0 1.594h14c.771 0 1.406.635 1.406 1.406v1H7.594v-1c0-.771.635-1.406 1.406-1.406M7.594 19h16.812v4c0 .771-.635 1.406-1.406 1.406H9A1.414 1.414 0 0 1 7.594 23z"/></svg>
+        
+    </a>
+    
+
+    <a href="#" class="icon-link active">
+        <svg xmlns="http://www.w3.org/2000/svg" class="img"     width="20px" height="2opx" viewBox="0 0 24 24"><path fill="#000" d="M9 11.75A1.25 1.25 0 0 0 7.75 13A1.25 1.25 0 0 0 9 14.25A1.25 1.25 0 0 0 10.25 13A1.25 1.25 0 0 0 9 11.75m6 0A1.25 1.25 0 0 0 13.75 13A1.25 1.25 0 0 0 15 14.25A1.25 1.25 0 0 0 16.25 13A1.25 1.25 0 0 0 15 11.75M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 18a8 8 0 0 1-8-8a4 4 0 0 1 0-.86a10.05 10.05 0 0 0 5.26-5.37A9.99 9.99 0 0 0 17.42 10c.76 0 1.51-.09 2.25-.26c1.25 4.26-1.17 8.69-5.41 9.93c-.76.22-1.5.33-2.26.33M0 2a2 2 0 0 1 2-2h4v2H2v4H0zm24 20a2 2 0 0 1-2 2h-4v-2h4v-4h2zM2 24a2 2 0 0 1-2-2v-4h2v4h4v2zM22 0a2 2 0 0 1 2 2v4h-2V2h-4V0z"/></svg>
+        
+    </a>
+
+    <a href="#" class="icon-link active">
+       <svg xmlns="http://www.w3.org/2000/svg" class="img"     width="20px" height="20px" viewBox="0 0 40 40"><path fill="#000" d="M34.234 39.917H5.758a2.05 2.05 0 0 1-2.051-2.049V2.136c0-1.132.92-2.053 2.051-2.053h28.477c.96 0 1.768.662 1.993 1.553h.062l.004.5v35.732a2.06 2.06 0 0 1-2.06 2.049M5.758 1.083c-.58 0-1.051.473-1.051 1.053v35.732c0 .578.471 1.049 1.051 1.049h28.477c.584 0 1.059-.471 1.059-1.049l-.005-35.732c0-.58-.473-1.053-1.055-1.053z"/><path fill="#000" d="M17.662 15.291H6.414a.5.5 0 0 1 0-1h11.248a.5.5 0 0 1 0 1m0 2.606H6.414a.5.5 0 0 1 0-1h11.248a.5.5 0 0 1 0 1m0 5.208H6.414a.5.5 0 0 1 0-1h11.248a.5.5 0 0 1 0 1m0-2.605H6.414a.5.5 0 0 1 0-1h11.248a.5.5 0 0 1 0 1m0 5.209H6.414a.5.5 0 0 1 0-1h11.248a.5.5 0 0 1 0 1m9.022 1.692c-4.082 0-7.402-3.32-7.402-7.402c0-4.081 3.32-7.4 7.402-7.4s7.402 3.319 7.402 7.4s-3.32 7.402-7.402 7.402m0-13.802a6.41 6.41 0 0 0-6.402 6.4c0 3.53 2.872 6.402 6.402 6.402s6.402-2.872 6.402-6.402c0-3.529-2.872-6.4-6.402-6.4"/><path fill="#000" d="M26.688 26.021c-2.632 0-5.005-1.754-5.77-4.265l.957-.291c.638 2.094 2.616 3.556 4.812 3.556a4.99 4.99 0 0 0 4.803-3.556l.957.291a5.99 5.99 0 0 1-5.759 4.265m5.517-5.522h-.649a.5.5 0 0 1 0-1h.124c-.252-2.535-2.396-4.521-4.997-4.521s-4.745 1.986-4.997 4.521h.181a.5.5 0 0 1 0 1h-.705a.5.5 0 0 1-.5-.5c0-3.32 2.701-6.021 6.021-6.021s6.022 2.701 6.022 6.021a.5.5 0 0 1-.5.5"/><path fill="#000" d="M26.684 15.708a.5.5 0 0 1-.5-.5v-.73a.5.5 0 0 1 1 0v.73a.5.5 0 0 1-.5.5m3.406 1.502a.5.5 0 0 1-.352-.854l.555-.553a.5.5 0 0 1 .705.709l-.555.553a.5.5 0 0 1-.353.145m-6.695 0a.5.5 0 0 1-.354-.146l-.553-.553a.5.5 0 0 1 .707-.707l.553.553a.5.5 0 0 1-.353.853"/><path fill="#000" d="M26.684 24.942a1.92 1.92 0 0 1-1.916-1.918l-.026-.104l.03-.008l1.172-6.551a.75.75 0 0 1 1.472-.002c1.186 6.45 1.186 6.606 1.186 6.664a1.92 1.92 0 0 1-1.918 1.919m-.916-1.919c0 .507.411.919.916.919a.92.92 0 0 0 .918-.918c-.024-.193-.498-2.816-.919-5.117z"/></svg> 
+       
+    </a>
+
+    <a href="#" class="icon-link active">
+        <svg xmlns="http://www.w3.org/2000/svg" class="img"    width="20px" height="20px" viewBox="0 0 2048 2048"><path fill="#000" d="M1792 896h-640V768h640zm-640 256h384v128h-384zm-326-80q46 26 82 62t62 79t40 93t14 102H896q0-53-20-99t-55-82t-81-55t-100-20q-53 0-99 20t-82 55t-55 81t-20 100H256q0-52 14-101t39-93t62-80t83-62q-33-35-51-81t-19-95q0-53 20-99t55-82t81-55t100-20q53 0 99 20t82 55t55 81t20 100q0 49-18 95t-52 81M512 896q0 27 10 50t27 40t41 28t50 10q27 0 50-10t40-27t28-41t10-50q0-27-10-50t-27-40t-41-28t-50-10q-27 0-50 10t-40 27t-28 41t-10 50m1217 515l317 317l-317 317l-91-90l163-163h-658l163 163l-91 90l-317-317l317-317l91 90l-163 163h658l-163-163zm319-1155v1216l-128-128V384H128v1280h640v128H0V256z"/></svg>
+        
+    </a>
+</div>
+
+    
+  
+</div>
+<Div class="gesture">
+    </Div>
+        
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<style>
+.gesture{
+    margin-top:auto;
+      width:140px;
+      height:6px;
+      background:#111;
+      border-radius:4px;
+      align-self:center;
+      margin-bottom:10px;
+    }
+    
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;background:#f1f3f6;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+
+    /* Center the mobile device mockup on larger screens */
+    .stage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+
+    /* The device frame - fixed mobile size (keeps "mobile only" look) */
+    .device{
+      width:390px;               /* phone width (iPhone-ish) */
+      height:844px;              /* phone height */
+      background:white;
+      border-radius:34px;
+      box-shadow:0 24px 60px rgba(15,23,42,0.18);
+      overflow:hidden;
+      position:relative;
+      display:flex;flex-direction:column;
+      border: none; /* device bezel color */
+    }
+
+    /* Top status bar */
+    .status{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:13px;color:#394150;background:linear-gradient(180deg, rgba(250,250,250,0.6), rgba(245,245,247,0.6));}
+
+    /* App header */
+    header.appbar{height:56px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid #f0f0f2}
+    header.appbar .title{font-weight:600;font-size:16px}
+
+    /* Main scrollable content area */
+    .content{flex:1;overflow-y:auto;padding:18px}
+    .hero{background:#0EA5A4;color:white;padding:18px;border-radius:12px;margin-bottom:16px}
+    .card{background:white;border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 6px 18px rgba(11,20,30,0.04);}
+
+    /* Bottom navigation (tab bar) */
+    .tabbar{height:70px;border-top:1px solid #f0f0f2;display:flex;gap:8px;padding:10px 12px;align-items:center;justify-content:space-between}
+    .tab{flex:1;text-align:center;font-size:12px;color:#475569}
+    .tab svg{display:block;margin:0 auto;margin-bottom:6px}
+    .tab.active{color:#0ea5a4;font-weight:600}
+
+    /* Floating action button */
+    .fab{position:absolute;left:50%;transform:translateX(-50%);bottom:56px;background:#0ea5a4;color:white;border-radius:50%;width:64px;height:64px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(14,165,164,0.2);border:6px solid white}
+
+    /* If user opens on very narrow screens (actual phones), make device fluid but keep proportions */
+    @media (max-width:420px){
+      .device{width:100%;height:calc(100vh - 48px);border-radius:20px}
+    }
+
+    /* Accessibility: hide focus outlines except for keyboard users */
+    :focus{outline:3px solid rgba(14,165,164,0.18);outline-offset:2px}
+
+    /* Small helpers */
+    .muted{color:#64748b;font-size:13px}
+    .row{display:flex;gap:12px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:#eef2f7;color:#0b1220;font-weight:600}
+
+    /* Optional: on very large displays show a caption next to device */
+    .side-note{display:none;margin-left:20px;max-width:320px;color:#334155}
+    @media(min-width:1100px){.side-note{display:block}}
+
+    .Wifi{
+    margin-right: 2px;
+    }
+    .about{
+      text-decoration-line: none;
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    margin-right: 20px;
+    margin-top: 15px;
+    border-radius: 20px;
+background-color: #000;
+border: 8px solid transparent;
+margin-left: 8px;
+
+    
+    }
+    .dashboard{
+    text-align: center;
+    margin-bottom: 10px;
+    }
+    a{
+    text-decoration-line: none;
+    }
+    .border-right{
+    border-right: 2px solid rgb(149, 144, 144);
+    width: 3px;
+    height: 25px;
+    
+    }
+    .border-ri{
+    border-right: 2px solid rgb(149, 144, 144);
+    width: 3px;
+    height: 25px;
+    
+    }
+    .border-r{
+    border-right: 2px solid rgb(149, 144, 144);
+    width: 3px;
+    height: 25px;
+    
+    }
+    .dashboard th{
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #fff;
+    }
+    .dashboard td{
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #fff;
+    }
+
+    .Btn{
+    border: none;
+    border-radius: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    color: #fff;
+    
+    }
+    .btn{
+    border: 2px solid #fff;
+    border-radius: 100px;
+    padding-right: 20px;
+    padding-left: 20px;
+    background-color: #111;
+    color: #fff;
+  
+    
+    }
+    .BtN{
+    border: 2px solid #fff;
+    border-radius: 20px;
+    padding-right: 8px;
+    padding-left: 8px;
+    color: #fff;
+    background-color: #111;
+    }
+    table{
+    border: none;
+    border-radius: 2px;
+    background-color: #111;
+    
+    
+    }
+    .currencies{
+    
+    
+    align-items: center; /* Vertically aligns them in the middle */
+    margin-top: 100px; /* Space between the table and this section */
+    padding: 0 10px; /* Optional: adds a little horizontal padding */
+    margin-right:20px ;
+}
+    
+    .c{
+    margin-right: 85px;
+    }
+
+    .currency-item {
+    display: flex; /* Use flexbox to align icon, details, and price horizontally */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f0f2; /* Light separator line */
+}
+
+.icon-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0; /* Prevents the icon from shrinking */
+}
+
+.icon-img {
+    width: 20px;
+    height: 20px;
+    /* In a real app, this would be an SVG for better quality */
+}
+
+/* Background colors for icons (adjust as needed) */
+.bg-yellow { background-color: #FFC107; }
+.bg-gray { background-color: #e9ecef; }
+.bg-green { background-color: #28a745; }
+
+
+.details {
+    flex-grow: 1; /* Allows the detail section to take up available space */
+    display: flex;
+    flex-direction: column;
+}
+
+.name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ticker {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.price-change {
+    font-weight: 600;
+    font-size: 13px;
+    text-align: right;
+    width: 60px; /* Gives a fixed width for alignment */
+}
+
+/* Colors for price changes */
+.text-success { color: #28a745 !important; }
+.text-danger { color: #dc3545 !important; }
+    
+   .img{
+  margin-top: 130px;
+  margin-left: 30px;
+  margin-right: 20px;
+   }
+   .status-icons {
+    display: flex; /* Makes the icons align horizontally */
+    align-items: center;
+    gap: 4px; /* Controls the space BETWEEN the icons (try 4px or 6px for very close) */
+}
+    
+    
+    
+    
+    </style>
+<body>
+    <div class="stage">
+    <div class="device" role="application" aria-label="Mobile app mockup">
+      <div class="status" aria-hidden>
+        <div>9:41</div>
+        <div class="status-icons">
+        <div><svg xmlns="http://www.w3.org/2000/svg" class=""     width="15" height="15" viewBox="0 0 512 512"><path fill="currentColor" d="M428.4 27.8v456.4h60.9V27.8zM327 168.2v316h60.8v-316zM225.4 273.6v210.6h61V273.6zM124 343.8v140.4h60.9V343.8zM22.67 394.9v89.3h60.84v-89.3z"/></svg></div>
+        <div><svg xmlns="http://www.w3.org/2000/svg"  class="" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21q-1.05 0-1.775-.725T9.5 18.5t.725-1.775T12 16t1.775.725t.725 1.775t-.725 1.775T12 21m-5.65-5.65l-2.1-2.15q1.475-1.475 3.463-2.337T12 10t4.288.875t3.462 2.375l-2.1 2.1q-1.1-1.1-2.55-1.725T12 13t-3.1.625t-2.55 1.725M2.1 11.1L0 9q2.3-2.35 5.375-3.675T12 4t6.625 1.325T24 9l-2.1 2.1q-1.925-1.925-4.462-3.012T12 7T6.563 8.088T2.1 11.1"/></svg></div>
+        <div><svg xmlns="http://www.w3.org/2000/svg" width="21.6" height="12" viewBox="0 0 2304 1280"><path fill="#000" d="M1920 256v768H256V256zm128 576h128V448h-128V160q0-14-9-23t-23-9H160q-14 0-23 9t-9 23v960q0 14 9 23t23 9h1856q14 0 23-9t9-23zm256-384v384q0 53-37.5 90.5T2176 960v160q0 66-47 113t-113 47H160q-66 0-113-47T0 1120V160Q0 94 47 47T160 0h1856q66 0 113 47t47 113v160q53 0 90.5 37.5T2304 448" stroke-width="32" stroke="#000"/></svg></div>
+        </div>
+        </div>
+
+       <nav class="navbar navbar-expand-lg border-bottom border-body" data-bs-theme="dark">
+<div class="container-fluid">
+  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 16 16"><path fill="currentColor" d="M2 3.75A.75.75 0 0 1 2.75 3h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 3.75m0 4A.75.75 0 0 1 2.75 7h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 7.75m0 4a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75"/></svg>
+  
+        
+
+  <a class="navbar-brand" href="#">O-crypt</a>
+  <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="20px" viewBox="0 0 24 24"><path fill="currentColor" d="M16 17h-1v1h-2v1H7v-1H5v-1H4v-1H3v-1H2v-2H1V7h1V5h1V4h1V3h1V2h2V1h6v1h2v1h1v1h1v1h1v2h1v6h-1v2h-1v1h-1zm7 3v2h-1v1h-2v-1h-1v-1h-1v-1h-1v-1h-1v-1h1v-1h1v-1h1v1h1v1h1v1h1v1z"/></svg>
+  
+        
+  
+  
+  
+  
+  </div>
+</nav>
+<div class="below">
+  <ul class="about">
+  <li style="text-decoration-line: none;"><a href="#">Overview</a></li>
+  <div class="border-right">
+
+  </div>
+  <li><a href="#">Tasks</a></li>
+  <div class="border-ri">
+
+  </div>
+  <li><a href="#">Trades</a></li>
+  <div class="border-r">
+
+  </div>
+  <li><a href="#">Labels</a></li>
+  
+  </ul>
+  <div class="dashboard">
+    <h1>Your Dashboard</h1>
+    
+    <table>
+    <tr>
+      <th>Balance(USD)</th>
+      <th>Transactions</th>
+      <th>Wallet</th>
+    </tr>
+    <tr>
+      <td>$21 453</td>
+      <td>6753</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td><button class="Btn">Buy</button></td>
+      <td><button class="btn">View</button></td>
+      <td><button class="BtN">Manage</button></td>
+    </tr>
+    </table>
+    <div class="currencies">
+      <h5><span class="c">Your currencies</span><button style="float: right; border: none; border-radius: 100px; padding-left: 20px; padding-right:20px ;">View all</button></h5>
+    </div>
+    <div class="currency-list">
+
+    <div class="currency-item">
+        <div class="icon-circle bg-yellow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><defs><linearGradient id="SVGOkNvZbPW" x1="49.973%" x2="49.973%" y1="-.024%" y2="99.99%"><stop offset="0%" stop-color="#f9aa4b"/><stop offset="100%" stop-color="#f7931a"/></linearGradient></defs><path fill="url(#SVGOkNvZbPW)" d="M252.171 158.954c-17.102 68.608-86.613 110.314-155.123 93.211c-68.61-17.102-110.316-86.61-93.213-155.119C20.937 28.438 90.347-13.268 158.957 3.835c68.51 17.002 110.317 86.51 93.214 155.119"/><path fill="#fff" d="M188.945 112.05c2.5-17-10.4-26.2-28.2-32.3l5.8-23.1l-14-3.5l-5.6 22.5c-3.7-.9-7.5-1.8-11.3-2.6l5.6-22.6l-14-3.5l-5.7 23q-4.65-1.05-9-2.1v-.1l-19.4-4.8l-3.7 15s10.4 2.4 10.2 2.5c5.7 1.4 6.7 5.2 6.5 8.2l-6.6 26.3c.4.1.9.2 1.5.5c-.5-.1-1-.2-1.5-.4l-9.2 36.8c-.7 1.7-2.5 4.3-6.4 3.3c.1.2-10.2-2.5-10.2-2.5l-7 16.1l18.3 4.6c3.4.9 6.7 1.7 10 2.6l-5.8 23.3l14 3.5l5.8-23.1c3.8 1 7.6 2 11.2 2.9l-5.7 23l14 3.5l5.8-23.3c24 4.5 42 2.7 49.5-19c6.1-17.4-.3-27.5-12.9-34.1c9.3-2.1 16.2-8.2 18-20.6m-32.1 45c-4.3 17.4-33.7 8-43.2 5.6l7.7-30.9c9.5 2.4 40.1 7.1 35.5 25.3m4.4-45.3c-4 15.9-28.4 7.8-36.3 5.8l7-28c7.9 2 33.4 5.7 29.3 22.2"/></svg></div>
+        <div class="details">
+            <div class="name">Bitcoin</div>
+            <div class="ticker">BTC</div>
+        </div>
+        <div class="price-change text-success">
+            +5.65%
+        </div>
+    </div>
+
+    <div class="currency-item">
+        <div class="icon-circle bg-gray"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><path fill="#8ffcf3" d="M12 3v6.651l5.625 2.516z"/><path fill="#cabcf8" d="m12 3l-5.625 9.166L12 9.653z"/><path fill="#cba7f5" d="M12 16.478V21l5.625-7.784z"/><path fill="#74a0f3" d="M12 21v-4.522l-5.625-3.262z"/><path fill="#cba7f5" d="m12 15.43l5.625-3.263L12 9.652z"/><path fill="#74a0f3" d="M6.375 12.167L12 15.43V9.652z"/><path fill="#202699" fill-rule="evenodd" d="m12 15.43l-5.625-3.263L12 3l5.624 9.166zm-5.252-3.528l5.161-8.41v6.114zm-.077.229l5.238-2.327v5.364zm5.418-2.327v5.364l5.234-3.037zm0-.198l5.161 2.296l-5.161-8.41z" clip-rule="evenodd"/><path fill="#202699" fill-rule="evenodd" d="m12 16.406l-5.625-3.195L12 21l5.624-7.79zm-4.995-2.633l4.904 2.79v4.005zm5.084 2.79v4.005l4.905-6.795z" clip-rule="evenodd"/></g></svg></div>
+        <div class="details">
+            <div class="name">Ethereum</div>
+            <div class="ticker">ETH</div>
+        </div>
+        <div class="price-change text-danger">
+            -2.30%
+        </div>
+
+        
+    </div>
+
+    </div>
+    
+
+    <div class="bottom-icons">
+    <a href="#" class="icon-link">
+        <svg xmlns="http://www.w3.org/2000/svg" class="img"     width="24" height="24" viewBox="0 0 24 24"><path fill="#000" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H4V6l8 5l8-5v12m-8-2L4 6h16l-8 5"/></svg>
+    </a>
+    <a href="#" class="icon-link">
+        <svg xmlns="http://www.w3.org/2000/svg"  class="img"   width="20" height="20" viewBox="0 0 24 24"><g fill="#000" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 8.25a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5M9.75 12a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"/><path d="M11.975 1.25c-.445 0-.816 0-1.12.02a2.8 2.8 0 0 0-.907.19a2.75 2.75 0 0 0-1.489 1.488c-.145.35-.184.72-.2 1.122a.87.87 0 0 1-.415.731a.87.87 0 0 1-.841-.005c-.356-.188-.696-.339-1.072-.389a2.75 2.75 0 0 0-2.033.545a2.8 2.8 0 0 0-.617.691c-.17.254-.356.575-.578.96l-.025.044c-.223.385-.408.706-.542.98c-.14.286-.25.568-.29.88a2.75 2.75 0 0 0 .544 2.033c.231.301.532.52.872.734a.87.87 0 0 1 .426.726a.87.87 0 0 1-.426.726c-.34.214-.64.433-.872.734a2.75 2.75 0 0 0-.545 2.033c.041.312.15.594.29.88c.135.274.32.595.543.98l.025.044c.222.385.408.706.578.96c.177.263.367.5.617.69a2.75 2.75 0 0 0 2.033.546c.376-.05.716-.2 1.072-.389a.87.87 0 0 1 .84-.005a.86.86 0 0 1 .417.731c.015.402.054.772.2 1.122a2.75 2.75 0 0 0 1.488 1.489c.29.12.59.167.907.188c.304.021.675.021 1.12.021h.05c.445 0 .816 0 1.12-.02c.318-.022.617-.069.907-.19a2.75 2.75 0 0 0 1.489-1.488c.145-.35.184-.72.2-1.122a.87.87 0 0 1 .415-.732a.87.87 0 0 1 .841.006c.356.188.696.339 1.072.388a2.75 2.75 0 0 0 2.033-.544c.25-.192.44-.428.617-.691c.17-.254.356-.575.578-.96l.025-.044c.223-.385.408-.706.542-.98c.14-.286.25-.569.29-.88a2.75 2.75 0 0 0-.544-2.033c-.231-.301-.532-.52-.872-.734a.87.87 0 0 1-.426-.726c0-.278.152-.554.426-.726c.34-.214.64-.433.872-.734a2.75 2.75 0 0 0 .545-2.033a2.8 2.8 0 0 0-.29-.88a18 18 0 0 0-.543-.98l-.025-.044a18 18 0 0 0-.578-.96a2.8 2.8 0 0 0-.617-.69a2.75 2.75 0 0 0-2.033-.546c-.376.05-.716.2-1.072.389a.87.87 0 0 1-.84.005a.87.87 0 0 1-.417-.731c-.015-.402-.054-.772-.2-1.122a2.75 2.75 0 0 0-1.488-1.489c-.29-.12-.59-.167-.907-.188c-.304-.021-.675-.021-1.12-.021zm-1.453 1.595c.077-.032.194-.061.435-.078c.247-.017.567-.017 1.043-.017s.796 0 1.043.017c.241.017.358.046.435.078c.307.127.55.37.677.677c.04.096.073.247.086.604c.03.792.439 1.555 1.165 1.974s1.591.392 2.292.022c.316-.167.463-.214.567-.227a1.25 1.25 0 0 1 .924.247c.066.051.15.138.285.338c.139.206.299.483.537.895s.397.69.506.912c.107.217.14.333.15.416a1.25 1.25 0 0 1-.247.924c-.064.083-.178.187-.48.377c-.672.422-1.128 1.158-1.128 1.996s.456 1.574 1.128 1.996c.302.19.416.294.48.377c.202.263.29.595.247.924c-.01.083-.044.2-.15.416c-.109.223-.268.5-.506.912s-.399.689-.537.895c-.135.2-.219.287-.285.338a1.25 1.25 0 0 1-.924.247c-.104-.013-.25-.06-.567-.227c-.7-.37-1.566-.398-2.292.021s-1.135 1.183-1.165 1.975c-.013.357-.046.508-.086.604a1.25 1.25 0 0 1-.677.677c-.077.032-.194.061-.435.078c-.247.017-.567.017-1.043.017s-.796 0-1.043-.017c-.241-.017-.358-.046-.435-.078a1.25 1.25 0 0 1-.677-.677c-.04-.096-.073-.247-.086-.604c-.03-.792-.439-1.555-1.165-1.974s-1.591-.392-2.292-.022c-.316.167-.463.214-.567.227a1.25 1.25 0 0 1-.924-.247c-.066-.051-.15-.138-.285-.338a17 17 0 0 1-.537-.895c-.238-.412-.397-.69-.506-.912c-.107-.217-.14-.333-.15-.416a1.25 1.25 0 0 1 .247-.924c.064-.083.178-.187.48-.377c.672-.422 1.128-1.158 1.128-1.996s-.456-1.574-1.128-1.996c-.302-.19-.416-.294-.48-.377a1.25 1.25 0 0 1-.247-.924c.01-.083.044-.2.15-.416c.109-.223.268-.5.506-.912s.399-.689.537-.895c.135-.2.219-.287.285-.338a1.25 1.25 0 0 1 .924-.247c.104.013.25.06.567.227c.7.37 1.566.398 2.292-.022c.726-.419 1.135-1.182 1.165-1.974c.013-.357.046-.508.086-.604c.127-.307.37-.55.677-.677"/></g></svg>
+    </a>
+    <a href="#" class="icon-link active">
+        <svg xmlns="http://www.w3.org/2000/svg" class="img"       width="20" height="30px" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"/><path fill="#000" d="M5 9a7 7 0 0 1 14 0v3.764l1.822 3.644A1.1 1.1 0 0 1 19.838 18h-3.964a4.002 4.002 0 0 1-7.748 0H4.162a1.1 1.1 0 0 1-.984-1.592L5 12.764zm5.268 9a2 2 0 0 0 3.464 0zM12 4a5 5 0 0 0-5 5v3.764a2 2 0 0 1-.211.894L5.619 16h12.763l-1.17-2.342a2 2 0 0 1-.212-.894V9a5 5 0 0 0-5-5"/></g></svg>
+    </a>
+
+    <a href="#" class="icon-link active">
+        <svg xmlns="http://www.w3.org/2000/svg"  class="img"     width="20" height="20" viewBox="0 0 24 24"><path fill="#000" d="M6 19q-1.246 0-2.123-.877T3 16V8q0-1.246.877-2.123T6 5h12q1.246 0 2.123.877T21 8v8q0 1.246-.877 2.123T18 19zM6 8.5h12q.589 0 1.098.202t.902.592V8q0-.825-.587-1.412T18 6H6q-.825 0-1.412.588T4 8v1.294q.392-.39.902-.592T6 8.5m-1.966 2.73l11.337 2.759q.187.05.383.009q.196-.04.338-.171l3.725-3.15q-.217-.529-.71-.853T18 9.5H6q-.766 0-1.32.491q-.555.492-.645 1.24"/></svg>
+    </a>
+</div>
+
+    
+  </div>
+</div>
+<Div class="gesture">
+    </Div>
+        
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
