@@ -1,0 +1,150 @@
+/* 
+color sytem:
+
+tint: #65e2c3
+primary: #23d6a9
+shade: #199676
+
+tint: #f9e3a3
+secondary: #f7d77b
+shade: #ad9756
+
+gray: #e9fbf6
+*/
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.main{
+  height: 100vh;
+  background-image: url(./premium.jpg.avif);
+  background-size: cover;
+}
+
+.container {
+  max-width: 1000px;
+  max-height: 100vh;
+  margin: 0 auto;
+  display: grid;
+  align-items: center;
+  row-gap: 50px;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 1fr 4fr;
+}
+
+/* navigation */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  grid-column: 1/-1;
+}
+
+.nav-list {
+  list-style: none;
+
+  display: flex;
+  gap: 10px;
+}
+
+.logo {
+  color: #23d6a9;
+  font-size: 25px;
+}
+
+.nav-link:link,
+.nav-link:visited  {
+  color: #e9fbf6;
+  text-decoration: none;
+}
+
+.nav-link:hover,
+.nav-link:active {
+  text-decoration: underline;
+
+}
+
+.search-list {
+  list-style: none;
+  display: flex;
+  gap: 5px;
+}
+
+.nav-search {
+  background: transparent;
+  border: 1px solid #65e2c3;
+  border-right: none;
+  padding: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  outline: none;
+  color: #fff;
+}
+
+.nav-btn {
+  padding: 5px;
+  background-color: #65e2c3;
+  border: 1px solid #65e2c3;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  color: 757e7b;
+}
+
+.nav-btn:hover,.nav-btn:active {
+  background-color: #199676;
+  cursor: pointer;
+}
+
+.hero-box {
+  grid-column: 1/3;
+}
+.hero-color{
+color: #f7d77b;
+}
+.hero-heading{
+color: #e9fbf6;
+}
+.hero-para{
+color: #e9fbf6;
+}
+
+
+/* form */
+.login-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ justify-content: space-around;
+  /* gap: 20px; */
+  width: 200px;
+  height: 250px;
+ background-color: rgba(5, 90, 68, 0.534);
+
+ grid-column: 3/4;
+}
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.login-box{
+display: flex;
+height: 30px;
+justify-content: center;
+align-items: center;
+gap: 5px;
+
+width: 150px;
+border-radius:10px ;
+background:linear-gradient(to right,#65e2c3, #f7d77b );
+}
+
+.login-box svg{
+margin-top: 5px;
+}
